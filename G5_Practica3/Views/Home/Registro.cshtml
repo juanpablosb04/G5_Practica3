@@ -8,11 +8,7 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label fw-bold fs-5">Compra</label>
             <div class="col-sm-6">
-                
-
-
-
-
+                @* @Html.DropDownListFor(m => m.CompraSeleccionada, Model.ListaCompras, "Seleccione un producto", new { @class = "form-select" }) *@
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary w-100">Consultar</button>
@@ -22,7 +18,7 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label fw-bold fs-5">Saldo Anterior</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" value="           " readonly>
+                <input type="text" class="form-control" value="@Model.SaldoAnterior" readonly>
             </div>
         </div>
 
