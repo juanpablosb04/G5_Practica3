@@ -1,9 +1,56 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "Registro";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Registro de Pago Parcial</h2>
+    <form>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label fw-bold fs-5">Compra</label>
+            <div class="col-sm-6">
+                
+
+
+
+
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-primary w-100">Consultar</button>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label fw-bold fs-5">Saldo Anterior</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" value="           " readonly>
+            </div>
+        </div>
+
+        <div class="mb-4 row">
+            <label class="col-sm-2 col-form-label fw-bold fs-5">Abono</label>
+            <div class="col-sm-6">
+                <input type="number" class="form-control" name="Abono" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2 offset-sm-2">
+                <button type="submit" class="btn btn-success-custom w-100">Abonar</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<style>
+    .btn-success-custom {
+        background-color: #90ee90;
+        border: none;
+        color: #000;
+    }
+
+        .btn-success-custom:hover {
+            background-color: #66bb66;
+            color: #000;
+        }
+</style>

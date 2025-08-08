@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<G5_Practica3.Models.Principal>
+
+@{
     ViewBag.Title = "Consulta de productos";
 }
 
@@ -14,5 +16,17 @@
             <th style="border-top-right-radius: 15px;">Estado</th>
         </tr>
     </thead>
-   
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ID_Compra</td>
+                <td>@item.Descripcion</td>
+                <td>@item.Precio.ToString("C")</td>
+                <td>@item.Saldo.ToString("C")</td>
+                <td>@item.Estado</td>
+            </tr>
+        }
+    </tbody>
+
 </table>
