@@ -7,7 +7,7 @@
 <h2 class=" d-xl-flex mb-4 mt-4 justify-content-center">Lista de Productos</h2>
 
 <table class="table table-bordered table-hover" style="border-radius: 15px; overflow: hidden; background-color: #fff; color: black;">
-    <thead style="background-color: #892fff; color: white;">
+    <thead style="background-color: #7ba2dc; color: white; ">
         <tr>
             <th style="border-top-left-radius: 15px;">Código de compra</th>
             <th>Descripción</th>
@@ -20,7 +20,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.ID_Compra</td>
+                <td>@item.Id_Compra</td>
                 <td>@item.Descripcion</td>
                 <td>@item.Precio.ToString("C")</td>
                 <td>@item.Saldo.ToString("C")</td>

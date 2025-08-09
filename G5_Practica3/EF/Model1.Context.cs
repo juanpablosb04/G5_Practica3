@@ -13,10 +13,10 @@ namespace G5_Practica3.EF
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class G5_Practica3Entities : DbContext
+    public partial class PracticaS12Entities : DbContext
     {
-        public G5_Practica3Entities()
-            : base("name=G5_Practica3Entities")
+        public PracticaS12Entities()
+            : base("name=PracticaS12Entities")
         {
         }
     

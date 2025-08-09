@@ -17,21 +17,32 @@ namespace G5_Practica3.Controllers
 
         public ActionResult Registro()
         {
+            using (var db = new PracticaS12Entities())
+            {
+                ViewBag.ComprasPendientes = db.Principal
+                    .Where(c => c.Estado == "Pendiente")
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id_Compra.ToString(),
+                        Text = c.Descripcion
+                    })
+                    .ToList();
 
-            return View();
+                return View();
+            }
+
         }
-
 
         public ActionResult Lista()
         {
-            using (var dbContext = new G5_Practica3Entities())
+            using (var dbContext = new PracticaS12Entities())
             {
                 var lista = dbContext.Principal
-                .OrderByDescending(p => p.Estado == "Pendiente")  
-                .ThenBy(p => p.ID_Compra)
+                .OrderByDescending(p => p.Estado == "Pendiente")
+                .ThenBy(p => p.Id_Compra)
                 .Select(p => new Models.Principal
                 {
-                    ID_Compra = p.ID_Compra,
+                    Id_Compra = (int)p.Id_Compra,
                     Descripcion = p.Descripcion,
                     Precio = p.Precio,
                     Saldo = p.Saldo,
@@ -42,5 +53,19 @@ namespace G5_Practica3.Controllers
                 return View(lista);
             }
         }
+
+        public JsonResult ObtenerSaldo(int idCompra)
+        {
+            using (var db = new PracticaS12Entities())
+            {
+                var saldo = db.Principal
+                              .Where(c => c.Id_Compra == idCompra)
+                              .Select(c => c.Saldo)
+                              .FirstOrDefault();
+
+                return Json(saldo, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

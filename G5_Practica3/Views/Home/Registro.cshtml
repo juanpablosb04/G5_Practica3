@@ -8,19 +8,23 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label fw-bold fs-5">Compra</label>
             <div class="col-sm-6">
-                @* @Html.DropDownListFor(m => m.CompraSeleccionada, Model.ListaCompras, "Seleccione un producto", new { @class = "form-select" }) *@
+                @Html.DropDownList("CompraSeleccionada",
+                    (IEnumerable<SelectListItem>)ViewBag.ComprasPendientes,"Seleccione un producto",
+                    new { @class = "form-select", id = "CompraSeleccionada" })
             </div>
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary w-100">Consultar</button>
+                <button type="button" id="BtnConsultSaldo" class="btn btn-primary w-100">Consultar</button>
+
             </div>
         </div>
 
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label fw-bold fs-5">Saldo Anterior</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" value="@Model.SaldoAnterior" readonly>
+                <input type="text" class="form-control" id="SaldoAnterior" readonly>
             </div>
         </div>
+
 
         <div class="mb-4 row">
             <label class="col-sm-2 col-form-label fw-bold fs-5">Abono</label>
@@ -36,6 +40,31 @@
         </div>
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+       $('#BtnConsultSaldo').click(function () {
+        var idCompra = $('#CompraSeleccionada').val();
+
+        if (idCompra) {
+            $.ajax({
+                url: '@Url.Action("ObtenerSaldo", "Home")',
+                type: 'GET',
+                data: { idCompra: idCompra },
+                success: function (data) {
+                    $('#SaldoAnterior').val(data);
+                },
+                error: function () {
+                    alert('Error al obtener el saldo.');
+                }
+            });
+        } else {
+            alert('Por favor, seleccione un producto primero.');
+            $('#SaldoAnterior').val('');
+        }
+    });
+});
+    </script>
 </div>
 
 <style>
