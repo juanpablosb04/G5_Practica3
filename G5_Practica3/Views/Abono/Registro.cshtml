@@ -48,7 +48,7 @@
 
         if (idCompra) {
             $.ajax({
-                url: '@Url.Action("ObtenerSaldo", "Home")',
+                url: '@Url.Action("ObtenerSaldo", "Abono")',
                 type: 'GET',
                 data: { idCompra: idCompra },
                 success: function (data) {
