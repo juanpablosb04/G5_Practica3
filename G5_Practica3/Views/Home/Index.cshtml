@@ -6,4 +6,10 @@
     <section class="row" aria-labelledby="aspnetTitle">
         <h1 id="title">Bienvenidos a la Practica #3 del Grupo 5</h1>
     </section>
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-info" role="alert">
+            @TempData["Mensaje"]
+        </div>
+    }
 </main>

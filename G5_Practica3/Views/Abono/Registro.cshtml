@@ -1,81 +1,77 @@
-﻿@{
+﻿@model G5_Practica3.EF.Abonos
+
+@{
     ViewBag.Title = "Registro";
 }
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Registro de Pago Parcial</h2>
-    <form>
-        <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label fw-bold fs-5">Compra</label>
-            <div class="col-sm-6">
-                @Html.DropDownList("CompraSeleccionada",
-                    (IEnumerable<SelectListItem>)ViewBag.ComprasPendientes,"Seleccione un producto",
-                    new { @class = "form-select", id = "CompraSeleccionada" })
-            </div>
-            <div class="col-sm-2">
-                <button type="button" id="BtnConsultSaldo" class="btn btn-primary w-100">Consultar</button>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    @if (TempData["Mensaje"] != null)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            @TempData["Mensaje"]
+                        </div>
+                    }
+                    @using (Html.BeginForm("RegistrarAbono", "Abono", FormMethod.Post, new { @class = "form-horizontal m-t-20" }))
+                    {
+                        <div class="mb-3 row">
+                            @Html.LabelFor(m => m.Id_Compra, "Compra", new { @class = "col-sm-2 col-form-label fw-bold fs-5" })
+                            <div class="col-sm-6">
+                                @Html.DropDownListFor(m => m.Id_Compra,
+                                    (IEnumerable<SelectListItem>)ViewBag.ComprasPendientes,
+                                    "Seleccione un producto",
+                                    new { @class = "form-select", id = "idProductoSeleccionado" })
+                            </div>
+                        </div>
 
+                        <div class="mb-3 row">
+                            @Html.Label("Saldo Pendiente", new { @class = "col-sm-2 col-form-label fw-bold fs-5" })
+                            <div class="col-sm-6">
+                                <input type="text" id="SaldoPendiente" class="form-control" readonly />
+                            </div>
+                        </div>
+
+                        <div class="mb-4 row">
+                            @Html.LabelFor(m => m.Monto, "Abono", new { @class = "col-sm-2 col-form-label fw-bold fs-5" })
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(m => m.Monto, new { @class = "form-control", type = "number", min = "0.01", step = "0.01", required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2 offset-sm-2">
+                                <button type="submit" class="btn btn-success-custom w-100">Abonar</button>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-
-        <div class="mb-3 row">
-            <label class="col-sm-2 col-form-label fw-bold fs-5">Saldo Anterior</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="SaldoAnterior" readonly>
-            </div>
-        </div>
-
-
-        <div class="mb-4 row">
-            <label class="col-sm-2 col-form-label fw-bold fs-5">Abono</label>
-            <div class="col-sm-6">
-                <input type="number" class="form-control" name="Abono" required>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-2 offset-sm-2">
-                <button type="submit" class="btn btn-success-custom w-100">Abonar</button>
-            </div>
-        </div>
-    </form>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $(document).ready(function () {
-       $('#BtnConsultSaldo').click(function () {
-        var idCompra = $('#CompraSeleccionada').val();
-
-        if (idCompra) {
-            $.ajax({
-                url: '@Url.Action("ObtenerSaldo", "Abono")',
-                type: 'GET',
-                data: { idCompra: idCompra },
-                success: function (data) {
-                    $('#SaldoAnterior').val(data);
-                },
-                error: function () {
-                    alert('Error al obtener el saldo.');
-                }
-            });
-        } else {
-            alert('Por favor, seleccione un producto primero.');
-            $('#SaldoAnterior').val('');
-        }
-    });
-});
-    </script>
+    </div>
 </div>
 
-<style>
-    .btn-success-custom {
-        background-color: #90ee90;
-        border: none;
-        color: #000;
-    }
+<script>
+    document.getElementById("idProductoSeleccionado").addEventListener("change", function () {
+        var idCompra = this.value;
 
-        .btn-success-custom:hover {
-            background-color: #66bb66;
-            color: #000;
+        if (idCompra) {
+            fetch('@Url.Action("ObtenerSaldoRestante", "Abono")' + '?idCompra=' + idCompra)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.saldoPendiente !== undefined) {
+                        document.getElementById("SaldoPendiente").value = data.saldoPendiente.toFixed(2);
+                    } else {
+                        document.getElementById("SaldoPendiente").value = "Error";
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("SaldoPendiente").value = "Error";
+                });
+        } else {
+            document.getElementById("SaldoPendiente").value = '';
         }
-</style>
+    });
+</script>
